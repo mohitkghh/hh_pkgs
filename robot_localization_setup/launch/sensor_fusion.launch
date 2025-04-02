@@ -1,0 +1,8 @@
+<launch>
+    <node name="sensor_fusion_node" pkg="robot_localization_setup" type="sensor_fusion.py" output="screen">
+        <param name="global_ned_frame" value="global_ned" />
+        <param name="odom_frame" value="odom" />
+        <param name="base_link_frame" value="base_link" />
+        <param name="publish_tf" value="true" />
+    </node>
+</launch>

@@ -1,0 +1,58 @@
+ekf_filter_node:
+  # Frame configuration
+  map_frame: odom                  # Our local odom frame
+  odom_frame: odom
+  base_link_frame: base_link
+  world_frame: odom                # Same as odom_frame
+  
+  # Sensor frames (MUST match your static transforms)
+  imu0_frame: imu_link             # Explicit IMU frame name
+  twist0_frame: kinematic_transform # Explicit DVL frame name
+  
+  # Frequency and sensor timeout
+  frequency: 50.0
+  sensor_timeout: 0.1
+  
+  # Process noise (tune for submarine dynamics)
+  process_noise_covariance: [1e-3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 1e-3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 1e-2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 0, 1e-3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 0, 0, 1e-3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 0, 0, 0, 1e-2, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 0, 0, 0, 0, 1e-3, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 0, 0, 0, 0, 0, 1e-3, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 0, 0, 0, 0, 0, 0, 1e-3, 0, 0, 0, 0, 0, 0,
+                            0, 0, 0, 0, 0, 0, 0, 0, 0, 1e-3, 0, 0, 0, 0, 0,
+                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1e-3, 0, 0, 0, 0,
+                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1e-3, 0, 0, 0,
+                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1e-3, 0, 0,
+                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1e-3, 0,
+                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1e-3]
+
+  # IMU configuration - relative to imu_link frame
+  imu0: imu/data
+  imu0_config: [false, false, false,  # Don't use orientation as absolute
+                true,  true,  true,   # Use angular velocity
+                true,  true,  true]   # Use linear acceleration
+  imu0_differential: false
+  imu0_relative: true                 # Data is in imu_link frame
+  imu0_queue_size: 10
+  imu0_remove_gravitational_acceleration: true
+
+  # DVL configuration - relative to kinematic_transform frame
+  twist0: plant/corrected_velocity
+  twist0_config: [true, true, true,   # Use linear velocity
+                 false, false, false] # Don't use angular velocity
+  twist0_differential: false
+  twist0_relative: true              # Data is in kinematic_transform frame
+  twist0_queue_size: 10
+
+  # Initial state - all zeros since odom starts at first pose
+  initial_state: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+  
+  # Output configuration
+  publish_tf: true
+  publish_acceleration: true
+  print_diagnostics: true
+  debug: false

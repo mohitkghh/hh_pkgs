@@ -1,0 +1,13 @@
+<launch>
+
+    <!-- <node pkg="tf2_ros" type="static_transform_publisher" name="glbalned_to_baselink" 
+          args="0.0 0.0 0.0 0.0 0.0 -3.141593 global_NED base_link" /> -->
+
+      <node pkg="tf2_ros" type="static_transform_publisher" name="baselink_to_dvl" 
+          args="-0.33252 0 0.09214 0 0 0 base_link dvl_link" />
+
+      <node pkg="tf2_ros" type="static_transform_publisher" name="baselink_to_imu" 
+          args="-0.8794 0.0 -0.02575 1.570796 0 3.141593 base_link imu_link" />
+
+
+</launch>
